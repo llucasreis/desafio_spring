@@ -7,7 +7,7 @@ import com.bootcamp.desafio.socialmeli.modules.users.domain.User;
 import java.util.List;
 
 public interface UserRepository {
-    void followSeller(User userCustomer, User userSeller);
+    boolean followSeller(User userCustomer, User userSeller);
     User findById(Long userId);
     void update(User user);
     List<Customer> findCustomersWithSeller(Seller seller);

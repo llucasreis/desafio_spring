@@ -37,7 +37,9 @@ public class UserServiceImpl implements UserService {
         User userCustomer = this.findById(userId, UserType.CUSTOMER);
         User userSeller = this.findById(userIdToFollow, UserType.SELLER);
 
-        this.userRepository.followSeller(userCustomer, userSeller);
+        boolean success = this.userRepository.followSeller(userCustomer, userSeller);
+
+        if (!success) throw new BadRequestException();
     }
 
     @Override

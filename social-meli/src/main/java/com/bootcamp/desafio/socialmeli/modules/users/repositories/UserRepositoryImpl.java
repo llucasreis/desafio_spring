@@ -39,12 +39,20 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void followSeller(User userCustomer, User userSeller) {
-        ((Customer) userCustomer).addToFollow((Seller) userSeller);
-        ((Seller) userSeller).addFollower((Customer) userCustomer);
+    public boolean followSeller(User userCustomer, User userSeller) {
+        Customer customer = (Customer) userCustomer;
+        Seller seller = (Seller) userSeller;
 
-        this.update(userCustomer);
-        this.update(userSeller);
+        if (!seller.followerAlreadyExist(customer)) {
+            customer.addToFollow(seller);
+            seller.addFollower(customer);
+
+            this.update(customer);
+            this.update(seller);
+
+            return true;
+        }
+        return false;
     }
 
     @Override

@@ -36,12 +36,11 @@ public class Seller extends User {
     }
 
     public void addFollower(Customer customer) {
-        int oldSize = this.followers.size();
         this.followers.add(customer);
-        int newSize = this.followers.size();
+        this.followersCount++;
+    }
 
-        if (newSize > oldSize) {
-            this.followersCount++;
-        }
+    public boolean followerAlreadyExist(Customer customer) {
+        return this.followers.contains(customer);
     }
 }
