@@ -1,50 +1,56 @@
 package com.bootcamp.desafio.socialmeli.modules.users.services;
 
-import com.bootcamp.desafio.socialmeli.modules.users.domain.User;
+import com.bootcamp.desafio.socialmeli.modules.users.domain.Customer;
 import com.bootcamp.desafio.socialmeli.modules.users.domain.Seller;
-import com.bootcamp.desafio.socialmeli.modules.users.repositories.SellerRepository;
+import com.bootcamp.desafio.socialmeli.modules.users.domain.User;
+import com.bootcamp.desafio.socialmeli.modules.users.domain.UserType;
+import com.bootcamp.desafio.socialmeli.modules.users.dtos.SellerWithFollowerListDTO;
 import com.bootcamp.desafio.socialmeli.modules.users.repositories.UserRepository;
 import com.bootcamp.desafio.socialmeli.shared.exceptions.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
-    private final SellerRepository sellerRepository;
 
     @Autowired
-    UserService(UserRepository userRepository, SellerRepository sellerRepository) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.sellerRepository = sellerRepository;
     }
 
-    public User findById(Long userId) {
+    public User findById(Long userId, UserType userType) {
         User user = this.userRepository.findById(userId);
 
-        if (user != null) {
+        if (user != null && user.getUserType().equals(userType)) {
             return user;
         }
         throw new BadRequestException();
     }
 
-    public void followUser(Long userId, Long userIdToFollow) {
-        User userFound = this.userRepository.findById(userId);
-        Seller sellerFound = this.sellerRepository.findById(userIdToFollow);
+    public void followSeller(Long userId, Long userIdToFollow) {
+        User userCustomer = this.findById(userId, UserType.CUSTOMER);
+        User userSeller = this.findById(userIdToFollow, UserType.SELLER);
 
-        if (userFound != null && sellerFound != null) {
-            userFound.addToFollow(sellerFound);
-            sellerFound.addFollower(userFound);
-
-            this.userRepository.update(userFound);
-            this.sellerRepository.update(sellerFound);
-        } else {
-            throw new BadRequestException();
-        }
+        this.userRepository.followSeller(userCustomer, userSeller);
     }
 
-    public User findFollowedList(Long userId) {
-        return this.findById(userId);
+    public Seller findFollowersCount(Long userId) {
+        return (Seller) this.findById(userId, UserType.SELLER);
+    }
+
+    public Customer findFollowedList(Long userId) {
+        return (Customer) this.findById(userId, UserType.CUSTOMER);
+    }
+
+    public SellerWithFollowerListDTO findFollowersList(Long userId) {
+        Seller seller = (Seller) this.findById(userId, UserType.SELLER);
+
+        List<Customer> customers = this.userRepository.findCustomersWithSeller(seller);
+
+        return SellerWithFollowerListDTO.convert(seller, customers);
     }
 }
