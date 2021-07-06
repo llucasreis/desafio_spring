@@ -1,7 +1,9 @@
 package com.bootcamp.desafio.socialmeli.modules.users.repositories;
 
-import com.bootcamp.desafio.socialmeli.modules.users.domain.User;
+import com.bootcamp.desafio.socialmeli.modules.users.domain.Customer;
 import com.bootcamp.desafio.socialmeli.modules.users.domain.Seller;
+import com.bootcamp.desafio.socialmeli.modules.users.domain.User;
+import com.bootcamp.desafio.socialmeli.modules.users.domain.UserType;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -16,9 +18,12 @@ public class UserRepository {
 
     UserRepository() {
         this.users = new ArrayList<>(Arrays.asList(
-                new User(1L, "usuario1"),
-                new User(2L, "usuario2"),
-                new User(3L, "usuario3")
+                new Customer(1L, "usuario1"),
+                new Customer(2L, "usuario2"),
+                new Customer(3L, "usuario3"),
+                new Seller(4L, "vendedor1"),
+                new Seller(5L, "vendedor2"),
+                new Seller(6L, "vendedor3")
         ));
     }
 
@@ -33,6 +38,14 @@ public class UserRepository {
         return arrayIndex;
     }
 
+    public void followSeller(User userCustomer, User userSeller) {
+        ((Customer) userCustomer).addToFollow((Seller) userSeller);
+        ((Seller) userSeller).addFollower((Customer) userCustomer);
+
+        this.update(userCustomer);
+        this.update(userSeller);
+    }
+
     public User findById(Long userId) {
         return this.users.stream().filter(u -> u.getUserId().equals(userId)).findFirst().orElse(null);
     }
@@ -43,7 +56,11 @@ public class UserRepository {
         this.users.set(index, user);
     }
 
-    public List<User> findUsersWithSeller(Seller seller) {
-        return this.users.stream().filter(u -> u.getFollowed().contains(seller)).collect(Collectors.toList());
+    public List<Customer> findCustomersWithSeller(Seller seller) {
+        return this.users.stream()
+                .filter(u -> u.getUserType().equals(UserType.CUSTOMER))
+                .map(c -> (Customer) c)
+                .filter(c -> c.getFollowed().contains(seller))
+                .collect(Collectors.toList());
     }
 }
