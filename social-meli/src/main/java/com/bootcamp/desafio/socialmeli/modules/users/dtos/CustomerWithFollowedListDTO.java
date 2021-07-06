@@ -1,28 +1,28 @@
 package com.bootcamp.desafio.socialmeli.modules.users.dtos;
 
-import com.bootcamp.desafio.socialmeli.modules.users.domain.User;
+import com.bootcamp.desafio.socialmeli.modules.users.domain.Customer;
 
 import java.util.List;
 
-public class UserWithFollowedListDTO {
+public class CustomerWithFollowedListDTO {
     private Long userId;
     private String userName;
     private List<SellerDTO> followed;
 
-    public UserWithFollowedListDTO() {
+    public CustomerWithFollowedListDTO() {
     }
 
-    public UserWithFollowedListDTO(Long userId, String userName, List<SellerDTO> followed) {
+    public CustomerWithFollowedListDTO(Long userId, String userName, List<SellerDTO> followed) {
         this.userId = userId;
         this.userName = userName;
         this.followed = followed;
     }
 
-    public static UserWithFollowedListDTO convert(User user) {
-        return new UserWithFollowedListDTO(
-                user.getUserId(),
-                user.getUserName(),
-                SellerDTO.convert(user.getFollowed())
+    public static CustomerWithFollowedListDTO convert(Customer customer) {
+        return new CustomerWithFollowedListDTO(
+                customer.getUserId(),
+                customer.getUserName(),
+                SellerDTO.convert(customer.getFollowed())
         );
     }
 

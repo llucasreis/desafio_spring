@@ -1,31 +1,31 @@
 package com.bootcamp.desafio.socialmeli.modules.users.dtos;
 
-import com.bootcamp.desafio.socialmeli.modules.users.domain.User;
+import com.bootcamp.desafio.socialmeli.modules.users.domain.Customer;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class UserDTO {
+public class CustomerDTO {
     private Long userId;
     private String userName;
 
-    public UserDTO() {
+    public CustomerDTO() {
     }
 
-    public UserDTO(Long userId, String userName) {
+    public CustomerDTO(Long userId, String userName) {
         this.userId = userId;
         this.userName = userName;
     }
 
-    public static UserDTO convert(User user) {
-        return new UserDTO(
-                user.getUserId(),
-                user.getUserName()
+    public static CustomerDTO convert(Customer customer) {
+        return new CustomerDTO(
+                customer.getUserId(),
+                customer.getUserName()
         );
     }
 
-    public static List<UserDTO> convert(List<User> users) {
-        return users.stream().map(UserDTO::convert).collect(Collectors.toList());
+    public static List<CustomerDTO> convert(List<Customer> customers) {
+        return customers.stream().map(CustomerDTO::convert).collect(Collectors.toList());
     }
 
     public Long getUserId() {
