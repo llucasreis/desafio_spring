@@ -3,8 +3,9 @@ package com.bootcamp.desafio.socialmeli.modules.users.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Seller extends AbstractUser {
-    private List<User> followers;
+public class Seller extends User {
+
+    private List<Customer> followers;
     private int followersCount;
 
     public Seller() {
@@ -13,12 +14,12 @@ public class Seller extends AbstractUser {
     }
 
     public Seller(Long userId, String userName) {
-        super(userId, userName);
+        super(userId, userName, UserType.SELLER);
         this.followers = new ArrayList<>();
         this.followersCount = 0;
     }
 
-    public List<User> getFollowers() {
+    public List<Customer> getFollowers() {
         return followers;
     }
 
@@ -30,12 +31,17 @@ public class Seller extends AbstractUser {
         this.followersCount = followersCount;
     }
 
-    public void setFollowers(List<User> followers) {
+    public void setFollowers(List<Customer> followers) {
         this.followers = followers;
     }
 
-    public void addFollower(User user) {
-        this.followers.add(user);
-        this.followersCount++;
+    public void addFollower(Customer customer) {
+        int oldSize = this.followers.size();
+        this.followers.add(customer);
+        int newSize = this.followers.size();
+
+        if (newSize > oldSize) {
+            this.followersCount++;
+        }
     }
 }

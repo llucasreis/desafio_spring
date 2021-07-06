@@ -1,30 +1,49 @@
 package com.bootcamp.desafio.socialmeli.modules.users.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class User extends AbstractUser {
-
-    private List<Seller> followed;
+public abstract class User {
+    private Long userId;
+    private String userName;
+    private UserType userType;
 
     public User() {
-        this.followed = new ArrayList<>();
     }
 
-    public User(Long userId, String userName) {
-        super(userId, userName);
-        this.followed = new ArrayList<>();
+    public User(Long userId, String userName, UserType userType) {
+        this.userId = userId;
+        this.userName = userName;
+        this.userType = userType;
     }
 
-    public List<Seller> getFollowed() {
-        return followed;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setFollowed(List<Seller> followed) {
-        this.followed = followed;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    public void addToFollow(Seller seller) {
-        this.followed.add(seller);
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public UserType getUserType() {
+        return userType;
+    }
+
+    public void setUserType(UserType userType) {
+        this.userType = userType;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", userName='" + userName + '\'' +
+                ", userType=" + userType +
+                '}';
     }
 }
