@@ -1,10 +1,7 @@
 package com.bootcamp.desafio.socialmeli.modules.products.services;
 
 import com.bootcamp.desafio.socialmeli.modules.products.domain.Post;
-import com.bootcamp.desafio.socialmeli.modules.products.dtos.CustomerSellersPostsDTO;
-import com.bootcamp.desafio.socialmeli.modules.products.dtos.PostFormDTO;
-import com.bootcamp.desafio.socialmeli.modules.products.dtos.PostPromoFormDTO;
-import com.bootcamp.desafio.socialmeli.modules.products.dtos.SellerPromoPostCountDTO;
+import com.bootcamp.desafio.socialmeli.modules.products.dtos.*;
 import com.bootcamp.desafio.socialmeli.modules.products.repositories.PostRepository;
 import com.bootcamp.desafio.socialmeli.modules.users.domain.Customer;
 import com.bootcamp.desafio.socialmeli.modules.users.domain.Seller;
@@ -75,5 +72,14 @@ public class PostServiceImpl implements PostService {
         List<Post> posts = this.postRepository.findPromoPostsBySellerId(id);
 
         return SellerPromoPostCountDTO.convert(seller, posts.size());
+    }
+
+    @Override
+    public SellerPromoPostsDTO findSellerPromoPostsList(Long id) {
+        Seller seller = (Seller) this.userService.findById(id, UserType.SELLER);
+
+        List<Post> posts = this.postRepository.findPromoPostsBySellerId(id);
+
+        return SellerPromoPostsDTO.convert(seller, posts);
     }
 }

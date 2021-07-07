@@ -1,9 +1,6 @@
 package com.bootcamp.desafio.socialmeli.modules.products.controllers;
 
-import com.bootcamp.desafio.socialmeli.modules.products.dtos.CustomerSellersPostsDTO;
-import com.bootcamp.desafio.socialmeli.modules.products.dtos.PostFormDTO;
-import com.bootcamp.desafio.socialmeli.modules.products.dtos.PostPromoFormDTO;
-import com.bootcamp.desafio.socialmeli.modules.products.dtos.SellerPromoPostCountDTO;
+import com.bootcamp.desafio.socialmeli.modules.products.dtos.*;
 import com.bootcamp.desafio.socialmeli.modules.products.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -49,5 +46,12 @@ public class PostController {
         SellerPromoPostCountDTO sellerPromoPostCountDTO = this.postService.findSellerPromoCount(userId);
 
         return ResponseEntity.ok(sellerPromoPostCountDTO);
+    }
+
+    @GetMapping("/{userId}/list")
+    public ResponseEntity<SellerPromoPostsDTO> findSellerPromoPosts(@PathVariable Long userId) {
+        SellerPromoPostsDTO sellerPromoPostsDTO = this.postService.findSellerPromoPostsList(userId);
+
+        return ResponseEntity.ok(sellerPromoPostsDTO);
     }
 }
