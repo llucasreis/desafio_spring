@@ -28,8 +28,9 @@ public class PostController {
     }
 
     @GetMapping("/followed/{userId}/list")
-    public ResponseEntity<CustomerSellersPostsDTO> findFollowedPostsList(@PathVariable Long userId) {
-        CustomerSellersPostsDTO customerSellersPostsDTO = this.postService.findFollowedPostsList(userId);
+    public ResponseEntity<CustomerSellersPostsDTO> findFollowedPostsList(
+            @PathVariable Long userId, @RequestParam(defaultValue = "") String order) {
+        CustomerSellersPostsDTO customerSellersPostsDTO = this.postService.findFollowedPostsList(userId, order);
 
         return ResponseEntity.ok(customerSellersPostsDTO);
     }
