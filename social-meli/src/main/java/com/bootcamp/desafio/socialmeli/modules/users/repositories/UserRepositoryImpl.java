@@ -56,6 +56,23 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public boolean unfollowSeller(User userCustomer, User userSeller) {
+        Customer customer = (Customer) userCustomer;
+        Seller seller = (Seller) userSeller;
+
+        if (seller.followerAlreadyExist(customer)) {
+            customer.unfollow(seller);
+            seller.removeFollower(customer);
+
+            this.update(customer);
+            this.update(seller);
+
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public User findById(Long userId) {
         return this.users.stream().filter(u -> u.getUserId().equals(userId)).findFirst().orElse(null);
     }

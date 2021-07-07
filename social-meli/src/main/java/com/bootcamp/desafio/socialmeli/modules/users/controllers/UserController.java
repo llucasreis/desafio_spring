@@ -29,6 +29,14 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/{userId}/unfollow/{userIdToUnfollow}")
+    public ResponseEntity<?> unfollowSeller(@PathVariable Long userId, @PathVariable Long userIdToUnfollow) {
+        this.userService.unfollowSeller(userId, userIdToUnfollow);
+
+        return ResponseEntity.ok().build();
+    }
+
+
     @GetMapping("/{userId}/followers/count")
     public ResponseEntity<SellerFollowerCountDTO> findFollowerCount(@PathVariable Long userId) {
         Seller seller = this.userService.findFollowersCount(userId);
@@ -37,8 +45,8 @@ public class UserController {
     }
 
     @GetMapping("/{userId}/followers/list")
-    public ResponseEntity<SellerWithFollowerListDTO> findFollowersList(@PathVariable("userId") Long sellerId) {
-        SellerWithFollowerListDTO seller = this.userService.findFollowersList(sellerId);
+    public ResponseEntity<SellerWithFollowerListDTO> findFollowersList(@PathVariable Long userId) {
+        SellerWithFollowerListDTO seller = this.userService.findFollowersList(userId);
 
         return ResponseEntity.ok(seller);
     }

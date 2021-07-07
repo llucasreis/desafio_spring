@@ -43,6 +43,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void unfollowSeller(Long userId, Long userIdToUnfollow) {
+        User userCustomer = this.findById(userId, UserType.CUSTOMER);
+        User userSeller = this.findById(userIdToUnfollow, UserType.SELLER);
+
+        boolean success = this.userRepository.unfollowSeller(userCustomer, userSeller);
+
+        if (!success) throw new BadRequestException();
+    }
+
+    @Override
     public Seller findFollowersCount(Long userId) {
         return (Seller) this.findById(userId, UserType.SELLER);
     }

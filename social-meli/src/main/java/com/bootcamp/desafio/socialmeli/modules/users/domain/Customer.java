@@ -28,4 +28,8 @@ public class Customer extends User {
     public void addToFollow(Seller seller) {
         this.followed.add(seller);
     }
+
+    public void unfollow(Seller seller) {
+        this.followed.remove(seller);
+    }
 }

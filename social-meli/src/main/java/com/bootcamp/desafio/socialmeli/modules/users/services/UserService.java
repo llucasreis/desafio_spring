@@ -9,6 +9,7 @@ import com.bootcamp.desafio.socialmeli.modules.users.dtos.SellerWithFollowerList
 public interface UserService {
     User findById(Long userId, UserType userType);
     void followSeller(Long userId, Long userIdToFollow);
+    void unfollowSeller(Long userId, Long userIdToUnfollow);
     Seller findFollowersCount(Long userId);
     Customer findFollowedList(Long userId);
     SellerWithFollowerListDTO findFollowersList(Long userId);

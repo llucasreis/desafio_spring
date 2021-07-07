@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface UserRepository {
     boolean followSeller(User userCustomer, User userSeller);
+    boolean unfollowSeller(User userCustomer, User userSeller);
     User findById(Long userId);
     void update(User user);
     List<Customer> findCustomersWithSeller(Seller seller);
