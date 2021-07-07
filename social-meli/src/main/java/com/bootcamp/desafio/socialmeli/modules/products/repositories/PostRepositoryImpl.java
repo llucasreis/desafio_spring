@@ -47,4 +47,20 @@ public class PostRepositoryImpl implements PostRepository {
                 .filter(p -> p.getDate().after(filterDate))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<Post> findPostsBySellersOrderByDate(List<Seller> sellers, Date filterDate, String order) {
+        Comparator<Date> dateComparator = order.equals("date_desc") ?
+                Comparator.reverseOrder() : Comparator.naturalOrder();
+
+        List<Post> sellerPosts = new ArrayList<>();
+        sellers.forEach(s -> {
+            sellerPosts.addAll(
+            this.findPostsBySellerId(s.getUserId(), filterDate));
+        });
+
+        sellerPosts.sort((p1, p2) -> dateComparator.compare(p1.getDate(), p2.getDate()));
+
+        return sellerPosts;
+    }
 }
