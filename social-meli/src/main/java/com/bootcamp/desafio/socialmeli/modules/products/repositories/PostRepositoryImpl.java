@@ -2,10 +2,15 @@ package com.bootcamp.desafio.socialmeli.modules.products.repositories;
 
 import com.bootcamp.desafio.socialmeli.modules.products.domain.Post;
 import com.bootcamp.desafio.socialmeli.modules.products.dtos.PostFormDTO;
+import com.bootcamp.desafio.socialmeli.modules.users.domain.Seller;
+import com.bootcamp.desafio.socialmeli.shared.utils.DateUtil;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class PostRepositoryImpl implements PostRepository {
@@ -26,5 +31,20 @@ public class PostRepositoryImpl implements PostRepository {
     @Override
     public Post findById(Long id) {
         return this.posts.stream().filter(p -> p.getId_post().equals(id)).findFirst().orElse(null);
+    }
+
+    @Override
+    public List<Post> findPostsBySellerId(Long id) {
+        return this.posts.stream()
+                .filter(p -> p.getUserId().equals(id))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Post> findPostsBySellerId(Long id, Date filterDate) {
+        return this.posts.stream()
+                .filter(p -> p.getUserId().equals(id))
+                .filter(p -> p.getDate().after(filterDate))
+                .collect(Collectors.toList());
     }
 }

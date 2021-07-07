@@ -1,13 +1,11 @@
 package com.bootcamp.desafio.socialmeli.modules.products.controllers;
 
+import com.bootcamp.desafio.socialmeli.modules.products.dtos.CustomerSellersPostsDTO;
 import com.bootcamp.desafio.socialmeli.modules.products.dtos.PostFormDTO;
 import com.bootcamp.desafio.socialmeli.modules.products.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -27,5 +25,12 @@ public class PostController {
         this.postService.create(formDTO);
 
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/followed/{userId}/list")
+    public ResponseEntity<CustomerSellersPostsDTO> findFollowedPostsList(@PathVariable Long userId) {
+        CustomerSellersPostsDTO customerSellersPostsDTO = this.postService.findFollowedPostsList(userId);
+
+        return ResponseEntity.ok(customerSellersPostsDTO);
     }
 }

@@ -1,29 +1,58 @@
 package com.bootcamp.desafio.socialmeli.modules.products.services;
 
 import com.bootcamp.desafio.socialmeli.modules.products.domain.Post;
+import com.bootcamp.desafio.socialmeli.modules.products.dtos.CustomerSellersPostsDTO;
 import com.bootcamp.desafio.socialmeli.modules.products.dtos.PostFormDTO;
 import com.bootcamp.desafio.socialmeli.modules.products.repositories.PostRepository;
+import com.bootcamp.desafio.socialmeli.modules.users.domain.Customer;
+import com.bootcamp.desafio.socialmeli.modules.users.domain.UserType;
+import com.bootcamp.desafio.socialmeli.modules.users.services.UserService;
 import com.bootcamp.desafio.socialmeli.shared.exceptions.BadRequestException;
+import com.bootcamp.desafio.socialmeli.shared.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
+    private final UserService userService;
 
     @Autowired
-    public PostServiceImpl(PostRepository postRepository) {
+    public PostServiceImpl(PostRepository postRepository, UserService userService) {
         this.postRepository = postRepository;
+        this.userService = userService;
     }
 
     @Override
-    public Post create(PostFormDTO formDTO) {
+    public void create(PostFormDTO formDTO) {
         Post postAlreadyExist = this.postRepository.findById(formDTO.getId_post());
 
         if (postAlreadyExist == null) {
-            return this.postRepository.create(formDTO.convert());
+            this.postRepository.create(formDTO.convert());
+        } else {
+            throw new BadRequestException();
         }
-        throw new BadRequestException();
+    }
+
+    @Override
+    public CustomerSellersPostsDTO findFollowedPostsList(Long userId) {
+        Customer customer = (Customer) this.userService.findById(userId, UserType.CUSTOMER);
+        List<Post> sellerPosts = new ArrayList<>();
+        Date filterDate = DateUtil.getTwoWeeksAgoDate(new Date());
+
+        customer.getFollowed().forEach(s -> {
+            sellerPosts.addAll(this.postRepository.findPostsBySellerId(
+                    s.getUserId(),
+                    filterDate));
+        });
+
+        return CustomerSellersPostsDTO.convert(userId, sellerPosts);
     }
 }
