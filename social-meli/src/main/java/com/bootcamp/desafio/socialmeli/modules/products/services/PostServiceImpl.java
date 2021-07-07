@@ -57,17 +57,6 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void create(PostPromoFormDTO formDTO) {
-        Post postAlreadyExist = this.postRepository.findById(formDTO.getId_post());
-
-        if (postAlreadyExist == null) {
-            this.postRepository.create(formDTO.convert());
-        } else {
-            throw new BadRequestException();
-        }
-    }
-
-    @Override
     public CustomerSellersPostsDTO findFollowedPostsList(Long userId, String order) {
         Customer customer = (Customer) this.userService.findById(userId, UserType.CUSTOMER);
         Date filterDate = DateUtil.getTwoWeeksAgoDate(new Date());
