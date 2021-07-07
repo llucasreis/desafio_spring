@@ -2,6 +2,7 @@ package com.bootcamp.desafio.socialmeli.modules.products.controllers;
 
 import com.bootcamp.desafio.socialmeli.modules.products.dtos.CustomerSellersPostsDTO;
 import com.bootcamp.desafio.socialmeli.modules.products.dtos.PostFormDTO;
+import com.bootcamp.desafio.socialmeli.modules.products.dtos.PostPromoFormDTO;
 import com.bootcamp.desafio.socialmeli.modules.products.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,13 @@ public class PostController {
 
     @PostMapping("/newpost")
     public ResponseEntity<?> createPost(@Valid @RequestBody PostFormDTO formDTO) {
+        this.postService.create(formDTO);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/newpromopost")
+    public ResponseEntity<?> createPromoPost(@Valid @RequestBody PostPromoFormDTO formDTO) {
         this.postService.create(formDTO);
 
         return ResponseEntity.ok().build();
