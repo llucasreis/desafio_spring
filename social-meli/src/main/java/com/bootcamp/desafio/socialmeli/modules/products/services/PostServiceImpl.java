@@ -3,6 +3,7 @@ package com.bootcamp.desafio.socialmeli.modules.products.services;
 import com.bootcamp.desafio.socialmeli.modules.products.domain.Post;
 import com.bootcamp.desafio.socialmeli.modules.products.dtos.CustomerSellersPostsDTO;
 import com.bootcamp.desafio.socialmeli.modules.products.dtos.PostFormDTO;
+import com.bootcamp.desafio.socialmeli.modules.products.dtos.PostPromoFormDTO;
 import com.bootcamp.desafio.socialmeli.modules.products.repositories.PostRepository;
 import com.bootcamp.desafio.socialmeli.modules.users.domain.Customer;
 import com.bootcamp.desafio.socialmeli.modules.users.domain.UserType;
@@ -32,6 +33,17 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void create(PostFormDTO formDTO) {
+        Post postAlreadyExist = this.postRepository.findById(formDTO.getId_post());
+
+        if (postAlreadyExist == null) {
+            this.postRepository.create(formDTO.convert());
+        } else {
+            throw new BadRequestException();
+        }
+    }
+
+    @Override
+    public void create(PostPromoFormDTO formDTO) {
         Post postAlreadyExist = this.postRepository.findById(formDTO.getId_post());
 
         if (postAlreadyExist == null) {
