@@ -5,6 +5,7 @@ import com.bootcamp.desafio.socialmeli.modules.products.dtos.CustomerSellersPost
 import com.bootcamp.desafio.socialmeli.modules.products.dtos.PostFormDTO;
 import com.bootcamp.desafio.socialmeli.modules.products.repositories.PostRepository;
 import com.bootcamp.desafio.socialmeli.modules.users.domain.Customer;
+import com.bootcamp.desafio.socialmeli.modules.users.domain.Seller;
 import com.bootcamp.desafio.socialmeli.modules.users.domain.UserType;
 import com.bootcamp.desafio.socialmeli.modules.users.services.UserService;
 import com.bootcamp.desafio.socialmeli.shared.exceptions.BadRequestException;
@@ -32,9 +33,10 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void create(PostFormDTO formDTO) {
+        Seller seller = (Seller) userService.findById(formDTO.getUserId(), UserType.SELLER);
         Post postAlreadyExist = this.postRepository.findById(formDTO.getId_post());
 
-        if (postAlreadyExist == null) {
+        if (seller != null && postAlreadyExist == null) {
             this.postRepository.create(formDTO.convert());
         } else {
             throw new BadRequestException();
