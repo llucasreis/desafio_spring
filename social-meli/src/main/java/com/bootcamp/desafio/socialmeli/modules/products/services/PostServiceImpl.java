@@ -46,9 +46,10 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void create(PostPromoFormDTO formDTO) {
+        Seller seller = (Seller) userService.findById(formDTO.getUserId(), UserType.SELLER);
         Post postAlreadyExist = this.postRepository.findById(formDTO.getId_post());
 
-        if (postAlreadyExist == null) {
+        if (seller != null && postAlreadyExist == null) {
             this.postRepository.create(formDTO.convert());
         } else {
             throw new BadRequestException();
