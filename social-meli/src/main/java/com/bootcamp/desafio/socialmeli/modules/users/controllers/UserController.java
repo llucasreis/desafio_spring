@@ -36,7 +36,6 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-
     @GetMapping("/{userId}/followers/count")
     public ResponseEntity<SellerFollowerCountDTO> findFollowerCount(@PathVariable Long userId) {
         Seller seller = this.userService.findFollowersCount(userId);
@@ -57,6 +56,6 @@ public class UserController {
             @PathVariable Long userId, @RequestParam(defaultValue = "") String order) {
         Customer customer = this.userService.findFollowedList(userId, order);
 
-        return new ResponseEntity<>(CustomerWithFollowedListDTO.convert(customer), HttpStatus.OK);
+        return ResponseEntity.ok(CustomerWithFollowedListDTO.convert(customer));
     }
 }
