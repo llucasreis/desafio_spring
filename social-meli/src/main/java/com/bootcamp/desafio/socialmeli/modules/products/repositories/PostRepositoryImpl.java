@@ -63,4 +63,11 @@ public class PostRepositoryImpl implements PostRepository {
 
         return sellerPosts;
     }
+
+    public List<Post> findPromoPostsBySellerId(Long id) {
+        return this.posts.stream()
+                .filter(p -> p.getUserId().equals(id))
+                .filter(Post::isHasPromo)
+                .collect(Collectors.toList());
+    }
 }
