@@ -42,16 +42,12 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public CustomerSellersPostsDTO findFollowedPostsList(Long userId) {
+    public CustomerSellersPostsDTO findFollowedPostsList(Long userId, String order) {
         Customer customer = (Customer) this.userService.findById(userId, UserType.CUSTOMER);
-        List<Post> sellerPosts = new ArrayList<>();
         Date filterDate = DateUtil.getTwoWeeksAgoDate(new Date());
 
-        customer.getFollowed().forEach(s -> {
-            sellerPosts.addAll(this.postRepository.findPostsBySellerId(
-                    s.getUserId(),
-                    filterDate));
-        });
+        List<Post> sellerPosts = this.postRepository.findPostsBySellersOrderByDate(
+                customer.getFollowed(), filterDate, order);
 
         return CustomerSellersPostsDTO.convert(userId, sellerPosts);
     }
