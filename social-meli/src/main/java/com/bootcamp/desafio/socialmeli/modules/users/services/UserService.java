@@ -11,6 +11,6 @@ public interface UserService {
     void followSeller(Long userId, Long userIdToFollow);
     void unfollowSeller(Long userId, Long userIdToUnfollow);
     Seller findFollowersCount(Long userId);
-    Customer findFollowedList(Long userId);
-    SellerWithFollowerListDTO findFollowersList(Long userId);
+    Customer findFollowedList(Long userId, String order);
+    SellerWithFollowerListDTO findFollowersList(Long userId, String order);
 }

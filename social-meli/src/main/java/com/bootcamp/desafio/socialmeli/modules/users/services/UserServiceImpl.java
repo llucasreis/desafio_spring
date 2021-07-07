@@ -10,7 +10,9 @@ import com.bootcamp.desafio.socialmeli.shared.exceptions.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -58,15 +60,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Customer findFollowedList(Long userId) {
-        return (Customer) this.findById(userId, UserType.CUSTOMER);
+    public Customer findFollowedList(Long userId, String order) {
+        Customer customer = (Customer) this.findById(userId, UserType.CUSTOMER);
+
+        customer.setFollowed(this.userRepository.findFollowedList(customer, order));
+
+        return customer;
     }
 
     @Override
-    public SellerWithFollowerListDTO findFollowersList(Long userId) {
+    public SellerWithFollowerListDTO findFollowersList(Long userId, String order) {
         Seller seller = (Seller) this.findById(userId, UserType.SELLER);
 
-        List<Customer> customers = this.userRepository.findCustomersWithSeller(seller);
+        List<Customer> customers = this.userRepository.findCustomersWithSeller(seller, order);
 
         return SellerWithFollowerListDTO.convert(seller, customers);
     }

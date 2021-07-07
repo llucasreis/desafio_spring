@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -85,11 +86,25 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public List<Customer> findCustomersWithSeller(Seller seller) {
+    public List<Seller> findFollowedList(Customer customer, String order) {
+        Comparator<String> nameComparator = order.equals("name_desc") ?
+                Comparator.reverseOrder() : Comparator.naturalOrder();
+
+        return customer.getFollowed().stream()
+                .sorted((s1, s2) -> nameComparator.compare(s1.getUserName(), s2.getUserName()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Customer> findCustomersWithSeller(Seller seller, String order) {
+        Comparator<String> nameComparator = order.equals("name_desc") ?
+                Comparator.reverseOrder() : Comparator.naturalOrder();
+
         return this.users.stream()
                 .filter(u -> u.getUserType().equals(UserType.CUSTOMER))
                 .map(c -> (Customer) c)
                 .filter(c -> c.getFollowed().contains(seller))
+                .sorted((c1, c2) -> nameComparator.compare(c1.getUserName(), c2.getUserName()))
                 .collect(Collectors.toList());
     }
 }

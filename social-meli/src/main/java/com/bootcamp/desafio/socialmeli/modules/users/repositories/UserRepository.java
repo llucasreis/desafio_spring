@@ -11,5 +11,6 @@ public interface UserRepository {
     boolean unfollowSeller(User userCustomer, User userSeller);
     User findById(Long userId);
     void update(User user);
-    List<Customer> findCustomersWithSeller(Seller seller);
+    List<Customer> findCustomersWithSeller(Seller seller, String order);
+    List<Seller> findFollowedList(Customer customer, String order);
 }

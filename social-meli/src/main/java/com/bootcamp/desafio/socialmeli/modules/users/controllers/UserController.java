@@ -45,15 +45,17 @@ public class UserController {
     }
 
     @GetMapping("/{userId}/followers/list")
-    public ResponseEntity<SellerWithFollowerListDTO> findFollowersList(@PathVariable Long userId) {
-        SellerWithFollowerListDTO seller = this.userService.findFollowersList(userId);
+    public ResponseEntity<SellerWithFollowerListDTO> findFollowersList(
+            @PathVariable Long userId, @RequestParam(defaultValue = "") String order) {
+        SellerWithFollowerListDTO seller = this.userService.findFollowersList(userId, order);
 
         return ResponseEntity.ok(seller);
     }
 
     @GetMapping("/{userId}/followed/list")
-    public ResponseEntity<CustomerWithFollowedListDTO> findFollowedList(@PathVariable Long userId) {
-        Customer customer = this.userService.findFollowedList(userId);
+    public ResponseEntity<CustomerWithFollowedListDTO> findFollowedList(
+            @PathVariable Long userId, @RequestParam(defaultValue = "") String order) {
+        Customer customer = this.userService.findFollowedList(userId, order);
 
         return new ResponseEntity<>(CustomerWithFollowedListDTO.convert(customer), HttpStatus.OK);
     }
