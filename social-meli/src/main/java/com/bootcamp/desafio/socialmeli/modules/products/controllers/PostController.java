@@ -1,7 +1,6 @@
 package com.bootcamp.desafio.socialmeli.modules.products.controllers;
 
-import com.bootcamp.desafio.socialmeli.modules.products.dtos.CustomerSellersPostsDTO;
-import com.bootcamp.desafio.socialmeli.modules.products.dtos.PostFormDTO;
+import com.bootcamp.desafio.socialmeli.modules.products.dtos.*;
 import com.bootcamp.desafio.socialmeli.modules.products.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,11 +26,32 @@ public class PostController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/newpromopost")
+    public ResponseEntity<?> createPromoPost(@Valid @RequestBody PostPromoFormDTO formDTO) {
+        this.postService.create(formDTO);
+
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/followed/{userId}/list")
     public ResponseEntity<CustomerSellersPostsDTO> findFollowedPostsList(
             @PathVariable Long userId, @RequestParam(defaultValue = "") String order) {
         CustomerSellersPostsDTO customerSellersPostsDTO = this.postService.findFollowedPostsList(userId, order);
 
         return ResponseEntity.ok(customerSellersPostsDTO);
+    }
+
+    @GetMapping("/{userId}/countPromo")
+    public ResponseEntity<SellerPromoPostCountDTO> findSellerPromoCount(@PathVariable Long userId) {
+        SellerPromoPostCountDTO sellerPromoPostCountDTO = this.postService.findSellerPromoCount(userId);
+
+        return ResponseEntity.ok(sellerPromoPostCountDTO);
+    }
+
+    @GetMapping("/{userId}/list")
+    public ResponseEntity<SellerPromoPostsDTO> findSellerPromoPosts(@PathVariable Long userId) {
+        SellerPromoPostsDTO sellerPromoPostsDTO = this.postService.findSellerPromoPostsList(userId);
+
+        return ResponseEntity.ok(sellerPromoPostsDTO);
     }
 }

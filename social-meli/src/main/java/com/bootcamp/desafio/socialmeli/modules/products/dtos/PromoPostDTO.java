@@ -1,23 +1,25 @@
-package com.bootcamp.desafio.socialmeli.modules.products.domain;
+package com.bootcamp.desafio.socialmeli.modules.products.dtos;
 
-import java.util.Date;
+import com.bootcamp.desafio.socialmeli.modules.products.domain.Post;
+import com.bootcamp.desafio.socialmeli.modules.products.domain.Product;
+import com.bootcamp.desafio.socialmeli.shared.utils.DateUtil;
 
-public class Post {
-    private Long userId;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class PromoPostDTO {
     private Long id_post;
-    private Date date;
+    private String date;
     private Product detail;
-    private int category;
+    private String category;
     private double price;
     private boolean hasPromo;
     private Double discount;
 
-    public Post() {
+    public PromoPostDTO() {
     }
 
-    public Post(Long userId, Long id_post, Date date, Product detail,
-                int category, double price, boolean hasPromo, Double discount) {
-        this.userId = userId;
+    public PromoPostDTO(Long id_post, String date, Product detail, String category, double price, boolean hasPromo, Double discount) {
         this.id_post = id_post;
         this.date = date;
         this.detail = detail;
@@ -27,12 +29,20 @@ public class Post {
         this.discount = discount;
     }
 
-    public Long getUserId() {
-        return userId;
+    public static PromoPostDTO convert(Post post) {
+        return new PromoPostDTO(
+                post.getId_post(),
+                DateUtil.getStringDate(post.getDate()),
+                post.getDetail(),
+                String.valueOf(post.getCategory()),
+                post.getPrice(),
+                post.isHasPromo(),
+                post.getDiscount()
+        );
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public static List<PromoPostDTO> convert(List<Post> posts) {
+        return posts.stream().map(PromoPostDTO::convert).collect(Collectors.toList());
     }
 
     public Long getId_post() {
@@ -43,11 +53,11 @@ public class Post {
         this.id_post = id_post;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -59,11 +69,11 @@ public class Post {
         this.detail = detail;
     }
 
-    public int getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(int category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 
@@ -89,15 +99,5 @@ public class Post {
 
     public void setDiscount(Double discount) {
         this.discount = discount;
-    }
-
-    @Override
-    public String toString() {
-        return "Post{" +
-                "userId=" + userId +
-                ", id_post=" + id_post +
-                ", date=" + date +
-                ", detail=" + detail +
-                '}';
     }
 }

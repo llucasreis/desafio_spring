@@ -51,7 +51,9 @@ public class PostFormDTO {
                 this.date,
                 this.detail,
                 this.category,
-                this.price
+                this.price,
+                false,
+                null
         );
     }
 

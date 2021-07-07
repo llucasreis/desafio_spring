@@ -1,8 +1,7 @@
 package com.bootcamp.desafio.socialmeli.modules.products.services;
 
 import com.bootcamp.desafio.socialmeli.modules.products.domain.Post;
-import com.bootcamp.desafio.socialmeli.modules.products.dtos.CustomerSellersPostsDTO;
-import com.bootcamp.desafio.socialmeli.modules.products.dtos.PostFormDTO;
+import com.bootcamp.desafio.socialmeli.modules.products.dtos.*;
 import com.bootcamp.desafio.socialmeli.modules.products.repositories.PostRepository;
 import com.bootcamp.desafio.socialmeli.modules.users.domain.Customer;
 import com.bootcamp.desafio.socialmeli.modules.users.domain.Seller;
@@ -44,6 +43,18 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public void create(PostPromoFormDTO formDTO) {
+        Seller seller = (Seller) userService.findById(formDTO.getUserId(), UserType.SELLER);
+        Post postAlreadyExist = this.postRepository.findById(formDTO.getId_post());
+
+        if (seller != null && postAlreadyExist == null) {
+            this.postRepository.create(formDTO.convert());
+        } else {
+            throw new BadRequestException();
+        }
+    }
+
+    @Override
     public CustomerSellersPostsDTO findFollowedPostsList(Long userId, String order) {
         Customer customer = (Customer) this.userService.findById(userId, UserType.CUSTOMER);
         Date filterDate = DateUtil.getTwoWeeksAgoDate(new Date());
@@ -52,5 +63,23 @@ public class PostServiceImpl implements PostService {
                 customer.getFollowed(), filterDate, order);
 
         return CustomerSellersPostsDTO.convert(userId, sellerPosts);
+    }
+
+    @Override
+    public SellerPromoPostCountDTO findSellerPromoCount(Long id) {
+        Seller seller = (Seller) this.userService.findById(id, UserType.SELLER);
+
+        List<Post> posts = this.postRepository.findPromoPostsBySellerId(id);
+
+        return SellerPromoPostCountDTO.convert(seller, posts.size());
+    }
+
+    @Override
+    public SellerPromoPostsDTO findSellerPromoPostsList(Long id) {
+        Seller seller = (Seller) this.userService.findById(id, UserType.SELLER);
+
+        List<Post> posts = this.postRepository.findPromoPostsBySellerId(id);
+
+        return SellerPromoPostsDTO.convert(seller, posts);
     }
 }
