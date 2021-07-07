@@ -1,22 +1,46 @@
-package com.bootcamp.desafio.socialmeli.modules.products.domain;
+package com.bootcamp.desafio.socialmeli.modules.products.dtos;
 
+import com.bootcamp.desafio.socialmeli.modules.products.domain.Post;
+import com.bootcamp.desafio.socialmeli.modules.products.domain.Product;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.OptBoolean;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
-public class Post {
+public class PostPromoFormDTO {
+    @NotNull
     private Long userId;
+
+    @NotNull
     private Long id_post;
+
+    @NotNull
+    @JsonSerialize(as = Date.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy",
+            lenient = OptBoolean.FALSE, locale = "pt-BR", timezone = "America/Sao_Paulo")
     private Date date;
+
+    @NotNull
     private Product detail;
+
+    @NotNull
     private int category;
+
+    @NotNull
     private double price;
+
+    @NotNull
     private boolean hasPromo;
+
+    @NotNull
     private Double discount;
 
-    public Post() {
+    public PostPromoFormDTO() {
     }
 
-    public Post(Long userId, Long id_post, Date date, Product detail,
-                int category, double price, boolean hasPromo, Double discount) {
+    public PostPromoFormDTO(Long userId, Long id_post, Date date, Product detail, int category, double price, boolean hasPromo, Double discount) {
         this.userId = userId;
         this.id_post = id_post;
         this.date = date;
@@ -25,6 +49,19 @@ public class Post {
         this.price = price;
         this.hasPromo = hasPromo;
         this.discount = discount;
+    }
+
+    public Post convert() {
+        return new Post(
+                this.userId,
+                this.id_post,
+                this.date,
+                this.detail,
+                this.category,
+                this.price,
+                this.hasPromo,
+                this.discount
+        );
     }
 
     public Long getUserId() {
@@ -89,15 +126,5 @@ public class Post {
 
     public void setDiscount(Double discount) {
         this.discount = discount;
-    }
-
-    @Override
-    public String toString() {
-        return "Post{" +
-                "userId=" + userId +
-                ", id_post=" + id_post +
-                ", date=" + date +
-                ", detail=" + detail +
-                '}';
     }
 }
