@@ -21,7 +21,7 @@ public class SellerFollowerCountDTO {
         return new SellerFollowerCountDTO(
                 seller.getUserId(),
                 seller.getUserName(),
-                seller.getFollowersCount()
+                seller.getFollowers().size()
         );
     }
 
