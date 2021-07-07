@@ -7,16 +7,13 @@ import com.bootcamp.desafio.socialmeli.modules.users.domain.Customer;
 import com.bootcamp.desafio.socialmeli.modules.users.domain.Seller;
 import com.bootcamp.desafio.socialmeli.modules.users.domain.UserType;
 import com.bootcamp.desafio.socialmeli.modules.users.services.UserService;
-import com.bootcamp.desafio.socialmeli.shared.exceptions.BadRequestException;
+import com.bootcamp.desafio.socialmeli.shared.exceptions.ConflictException;
 import com.bootcamp.desafio.socialmeli.shared.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -32,26 +29,22 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void create(PostFormDTO formDTO) {
-        Seller seller = (Seller) userService.findById(formDTO.getUserId(), UserType.SELLER);
+        userService.findById(formDTO.getUserId(), UserType.SELLER); // checking if exist
         Post postAlreadyExist = this.postRepository.findById(formDTO.getId_post());
 
-        if (seller != null && postAlreadyExist == null) {
-            this.postRepository.create(formDTO.convert());
-        } else {
-            throw new BadRequestException();
-        }
+        if (postAlreadyExist != null) throw new ConflictException("Já existe um Post com este ID");
+
+        this.postRepository.create(formDTO.convert());
     }
 
     @Override
     public void create(PostPromoFormDTO formDTO) {
-        Seller seller = (Seller) userService.findById(formDTO.getUserId(), UserType.SELLER);
+        userService.findById(formDTO.getUserId(), UserType.SELLER); // checking if exist
         Post postAlreadyExist = this.postRepository.findById(formDTO.getId_post());
 
-        if (seller != null && postAlreadyExist == null) {
-            this.postRepository.create(formDTO.convert());
-        } else {
-            throw new BadRequestException();
-        }
+        if (postAlreadyExist != null) throw new ConflictException("Já existe um Post com este ID");
+
+        this.postRepository.create(formDTO.convert());
     }
 
     @Override

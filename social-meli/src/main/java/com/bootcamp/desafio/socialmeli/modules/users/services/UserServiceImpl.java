@@ -7,12 +7,11 @@ import com.bootcamp.desafio.socialmeli.modules.users.domain.UserType;
 import com.bootcamp.desafio.socialmeli.modules.users.dtos.SellerWithFollowerListDTO;
 import com.bootcamp.desafio.socialmeli.modules.users.repositories.UserRepository;
 import com.bootcamp.desafio.socialmeli.shared.exceptions.BadRequestException;
+import com.bootcamp.desafio.socialmeli.shared.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -31,7 +30,7 @@ public class UserServiceImpl implements UserService {
         if (user != null && user.getUserType().equals(userType)) {
             return user;
         }
-        throw new BadRequestException();
+        throw new NotFoundException(userType.getValue() + " não encontrado");
     }
 
     @Override
