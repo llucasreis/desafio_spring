@@ -3,6 +3,8 @@ package com.bootcamp.desafio.socialmeli.modules.products.repositories;
 import com.bootcamp.desafio.socialmeli.modules.products.domain.Post;
 import com.bootcamp.desafio.socialmeli.modules.products.dtos.PostFormDTO;
 import com.bootcamp.desafio.socialmeli.modules.users.domain.Seller;
+import com.bootcamp.desafio.socialmeli.shared.enums.OrderBy;
+import com.bootcamp.desafio.socialmeli.shared.helpers.ComparatorHelper;
 import com.bootcamp.desafio.socialmeli.shared.utils.DateUtil;
 import org.springframework.stereotype.Repository;
 
@@ -49,17 +51,14 @@ public class PostRepositoryImpl implements PostRepository {
     }
 
     @Override
-    public List<Post> findPostsBySellersOrderByDate(List<Seller> sellers, Date filterDate, String order) {
-        Comparator<Date> dateComparator = order.equals("date_desc") ?
-                Comparator.reverseOrder() : Comparator.naturalOrder();
-
+    public List<Post> findPostsBySellersOrderByDate(List<Seller> sellers, Date filterDate, OrderBy orderBy) {
         List<Post> sellerPosts = new ArrayList<>();
         sellers.forEach(s -> {
             sellerPosts.addAll(
             this.findPostsBySellerId(s.getUserId(), filterDate));
         });
 
-        sellerPosts.sort((p1, p2) -> dateComparator.compare(p1.getDate(), p2.getDate()));
+        sellerPosts.sort(ComparatorHelper.getComparatorOrder(orderBy));
 
         return sellerPosts;
     }

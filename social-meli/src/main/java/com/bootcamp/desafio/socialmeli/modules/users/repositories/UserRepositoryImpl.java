@@ -4,6 +4,8 @@ import com.bootcamp.desafio.socialmeli.modules.users.domain.Customer;
 import com.bootcamp.desafio.socialmeli.modules.users.domain.Seller;
 import com.bootcamp.desafio.socialmeli.modules.users.domain.User;
 import com.bootcamp.desafio.socialmeli.modules.users.domain.UserType;
+import com.bootcamp.desafio.socialmeli.shared.enums.OrderBy;
+import com.bootcamp.desafio.socialmeli.shared.helpers.ComparatorHelper;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -33,6 +35,7 @@ public class UserRepositoryImpl implements UserRepository {
         for (int i = 0; i < this.users.size(); i++) {
             if (this.users.get(i).getUserId().equals(id)) {
                 arrayIndex = i;
+                break;
             }
         }
 
@@ -86,25 +89,19 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public List<Seller> findFollowedList(Customer customer, String order) {
-        Comparator<String> nameComparator = order.equals("name_desc") ?
-                Comparator.reverseOrder() : Comparator.naturalOrder();
-
+    public List<Seller> findFollowedList(Customer customer, OrderBy orderBy) {
         return customer.getFollowed().stream()
-                .sorted((s1, s2) -> nameComparator.compare(s1.getUserName(), s2.getUserName()))
+                .sorted(ComparatorHelper.getComparatorOrder(orderBy))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<Customer> findCustomersWithSeller(Seller seller, String order) {
-        Comparator<String> nameComparator = order.equals("name_desc") ?
-                Comparator.reverseOrder() : Comparator.naturalOrder();
-
+    public List<Customer> findCustomersWithSeller(Seller seller, OrderBy orderBy) {
         return this.users.stream()
                 .filter(u -> u.getUserType().equals(UserType.CUSTOMER))
                 .map(c -> (Customer) c)
                 .filter(c -> c.getFollowed().contains(seller))
-                .sorted((c1, c2) -> nameComparator.compare(c1.getUserName(), c2.getUserName()))
+                .sorted(ComparatorHelper.getComparatorOrder(orderBy))
                 .collect(Collectors.toList());
     }
 }
