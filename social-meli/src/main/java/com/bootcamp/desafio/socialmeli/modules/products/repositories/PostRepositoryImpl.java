@@ -50,10 +50,8 @@ public class PostRepositoryImpl implements PostRepository {
     @Override
     public List<Post> findPostsBySellersOrderByDate(List<Seller> sellers, Date filterDate, OrderBy orderBy) {
         List<Post> sellerPosts = new ArrayList<>();
-        sellers.forEach(s -> {
-            sellerPosts.addAll(
-            this.findPostsBySellerId(s.getUserId(), filterDate));
-        });
+        sellers.forEach(s -> sellerPosts.addAll(
+        this.findPostsBySellerId(s.getUserId(), filterDate)));
 
         sellerPosts.sort(ComparatorUtil.getComparatorOrder(orderBy));
 
