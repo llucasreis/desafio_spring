@@ -6,8 +6,10 @@ import com.bootcamp.desafio.socialmeli.modules.users.domain.User;
 import com.bootcamp.desafio.socialmeli.modules.users.domain.UserType;
 import com.bootcamp.desafio.socialmeli.modules.users.dtos.SellerWithFollowerListDTO;
 import com.bootcamp.desafio.socialmeli.modules.users.repositories.UserRepository;
+import com.bootcamp.desafio.socialmeli.shared.enums.OrderBy;
 import com.bootcamp.desafio.socialmeli.shared.exceptions.BadRequestException;
 import com.bootcamp.desafio.socialmeli.shared.exceptions.NotFoundException;
+import com.bootcamp.desafio.socialmeli.shared.utils.EnumUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -60,18 +62,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Customer findFollowedList(Long userId, String order) {
+        OrderBy orderBy = EnumUtil.getOrderByValue(order);
         Customer customer = (Customer) this.findById(userId, UserType.CUSTOMER);
 
-        customer.setFollowed(this.userRepository.findFollowedList(customer, order));
+        customer.setFollowed(this.userRepository.findFollowedList(customer, orderBy));
 
         return customer;
     }
 
     @Override
     public SellerWithFollowerListDTO findFollowersList(Long userId, String order) {
+        OrderBy orderBy = EnumUtil.getOrderByValue(order);
         Seller seller = (Seller) this.findById(userId, UserType.SELLER);
 
-        List<Customer> customers = this.userRepository.findCustomersWithSeller(seller, order);
+        List<Customer> customers = this.userRepository.findCustomersWithSeller(seller, orderBy);
 
         return SellerWithFollowerListDTO.convert(seller, customers);
     }
