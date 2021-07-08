@@ -14,15 +14,15 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/users/1/follow/4",
+							"raw": "{{url}}/users/3/follow/5",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"users",
-								"1",
+								"3",
 								"follow",
-								"4"
+								"5"
 							]
 						}
 					},
@@ -34,13 +34,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/users/4/followers/count",
+							"raw": "{{url}}/users/5/followers/count",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"users",
-								"4",
+								"5",
 								"followers",
 								"count"
 							]
@@ -108,13 +108,13 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/users/1/unfollow/4",
+							"raw": "{{url}}/users/3/unfollow/4",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"users",
-								"1",
+								"3",
 								"unfollow",
 								"4"
 							]
@@ -134,7 +134,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"userId\": 4,\n    \"id_post\": 4,\n    \"date\": \"07-07-2021\",\n    \"detail\": {\n        \"product_id\" : 1,\n        \"productName\" : \"Cadeira Gamer\",\n        \"type\": \"Gamer\",\n        \"brand\": \"Racer\",\n        \"color\": \"Red & Black\",\n        \"notes\": \"Special Edition\"\n    },\n    \"category\": 100,\n    \"price\": 1500.50\n}",
+							"raw": "{\n    \"userId\": 5,\n    \"id_post\": 3,\n    \"date\": \"03-07-2021\",\n    \"detail\": {\n        \"product_id\" : 1,\n        \"productName\" : \"Cadeira Gamer\",\n        \"type\": \"Gamer\",\n        \"brand\": \"Racer\",\n        \"color\": \"Red & Black\",\n        \"notes\": \"Special Edition\"\n    },\n    \"category\": 100,\n    \"price\": 1500.50\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -188,7 +188,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"userId\": 4,\n    \"id_post\": 3,\n    \"date\": \"01-07-2021\",\n    \"detail\": {\n        \"product_id\" : 1,\n        \"productName\" : \"Cadeira Gamer\",\n        \"type\": \"Gamer\",\n        \"brand\": \"Racer\",\n        \"color\": \"Red & Black\",\n        \"notes\": \"Special Edition\"\n    },\n    \"category\": 100,\n    \"price\": 1500.50,\n    \"hasPromo\": true,\n    \"discount\": 0.25\n}",
+							"raw": "{\n    \"userId\": 4,\n    \"id_post\": 5,\n    \"date\": \"07-07-2021\",\n    \"detail\": {\n        \"product_id\" : 1,\n        \"productName\" : \"Cadeira Gamer2\",\n        \"type\": \"Gamer\",\n        \"brand\": \"Racer\",\n        \"color\": \"Red & Black\",\n        \"notes\": \"Special Edition\"\n    },\n    \"category\": 100,\n    \"price\": 1500.50,\n    \"hasPromo\": true,\n    \"discount\": 0.25\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -233,14 +233,21 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/products/4/list",
+							"raw": "{{url}}/products/4/list/?order=name_desc",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"products",
 								"4",
-								"list"
+								"list",
+								""
+							],
+							"query": [
+								{
+									"key": "order",
+									"value": "name_desc"
+								}
 							]
 						}
 					},
