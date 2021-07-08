@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Customer findFollowedList(Long userId, String order) {
-        OrderBy orderBy = EnumUtil.getOrderByValue(order);
+        OrderBy orderBy = EnumUtil.checkIfValidOrderByField(order, "name");
         Customer customer = (Customer) this.findById(userId, UserType.CUSTOMER);
 
         customer.setFollowed(this.userRepository.findFollowedList(customer, orderBy));
@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public SellerWithFollowerListDTO findFollowersList(Long userId, String order) {
-        OrderBy orderBy = EnumUtil.getOrderByValue(order);
+        OrderBy orderBy = EnumUtil.checkIfValidOrderByField(order, "name");
         Seller seller = (Seller) this.findById(userId, UserType.SELLER);
 
         List<Customer> customers = this.userRepository.findCustomersWithSeller(seller, orderBy);

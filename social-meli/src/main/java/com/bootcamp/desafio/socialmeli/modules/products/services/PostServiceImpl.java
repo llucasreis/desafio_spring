@@ -50,7 +50,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public CustomerSellersPostsDTO findFollowedPostsList(Long userId, String order) {
-        OrderBy orderBy = EnumUtil.getOrderByValue(order);
+        OrderBy orderBy = EnumUtil.checkIfValidOrderByField(order, "date");
         Customer customer = (Customer) this.userService.findById(userId, UserType.CUSTOMER);
         Date filterDate = DateUtil.getTwoWeeksAgoDate(new Date());
 
@@ -71,7 +71,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public SellerPromoPostsDTO findSellerPromoPostsList(Long id, String order) {
-        OrderBy orderBy = EnumUtil.getOrderByValue(order);
+        OrderBy orderBy = EnumUtil.checkIfValidOrderByField(order, "name");
         Seller seller = (Seller) this.userService.findById(id, UserType.SELLER);
 
         List<Post> posts = this.postRepository.findPromoPostsBySellerId(id, orderBy);
