@@ -29,24 +29,23 @@ public class PostServiceImpl implements PostService {
         this.userService = userService;
     }
 
-    @Override
-    public void create(PostFormDTO formDTO) {
-        userService.findById(formDTO.getUserId(), UserType.SELLER); // checking if exist
-        Post postAlreadyExist = this.postRepository.findById(formDTO.getId_post());
+    private void createPost(Post post) {
+        userService.findById(post.getUserId(), UserType.SELLER); //checking if exist
+        Post postAlreadyExist = this.postRepository.findById(post.getId_post());
 
         if (postAlreadyExist != null) throw new ConflictException("Já existe um Post com este ID");
 
-        this.postRepository.create(formDTO.convert());
+        this.postRepository.create(post);
+    }
+
+    @Override
+    public void create(PostFormDTO formDTO) {
+        this.createPost(formDTO.convert());
     }
 
     @Override
     public void create(PostPromoFormDTO formDTO) {
-        userService.findById(formDTO.getUserId(), UserType.SELLER); // checking if exist
-        Post postAlreadyExist = this.postRepository.findById(formDTO.getId_post());
-
-        if (postAlreadyExist != null) throw new ConflictException("Já existe um Post com este ID");
-
-        this.postRepository.create(formDTO.convert());
+        this.createPost(formDTO.convert());
     }
 
     @Override
