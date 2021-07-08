@@ -7,7 +7,6 @@ import com.bootcamp.desafio.socialmeli.modules.users.dtos.SellerWithFollowerList
 import com.bootcamp.desafio.socialmeli.modules.users.dtos.CustomerWithFollowedListDTO;
 import com.bootcamp.desafio.socialmeli.modules.users.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
