@@ -5,12 +5,11 @@ import com.bootcamp.desafio.socialmeli.modules.users.domain.Seller;
 import com.bootcamp.desafio.socialmeli.modules.users.domain.User;
 import com.bootcamp.desafio.socialmeli.modules.users.domain.UserType;
 import com.bootcamp.desafio.socialmeli.shared.enums.OrderBy;
-import com.bootcamp.desafio.socialmeli.shared.helpers.ComparatorHelper;
+import com.bootcamp.desafio.socialmeli.shared.utils.ComparatorUtil;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -91,7 +90,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public List<Seller> findFollowedList(Customer customer, OrderBy orderBy) {
         return customer.getFollowed().stream()
-                .sorted(ComparatorHelper.getComparatorOrder(orderBy))
+                .sorted(ComparatorUtil.getComparatorOrder(orderBy))
                 .collect(Collectors.toList());
     }
 
@@ -101,7 +100,7 @@ public class UserRepositoryImpl implements UserRepository {
                 .filter(u -> u.getUserType().equals(UserType.CUSTOMER))
                 .map(c -> (Customer) c)
                 .filter(c -> c.getFollowed().contains(seller))
-                .sorted(ComparatorHelper.getComparatorOrder(orderBy))
+                .sorted(ComparatorUtil.getComparatorOrder(orderBy))
                 .collect(Collectors.toList());
     }
 }

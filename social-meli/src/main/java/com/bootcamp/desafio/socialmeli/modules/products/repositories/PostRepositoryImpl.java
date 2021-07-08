@@ -1,15 +1,12 @@
 package com.bootcamp.desafio.socialmeli.modules.products.repositories;
 
 import com.bootcamp.desafio.socialmeli.modules.products.domain.Post;
-import com.bootcamp.desafio.socialmeli.modules.products.dtos.PostFormDTO;
 import com.bootcamp.desafio.socialmeli.modules.users.domain.Seller;
 import com.bootcamp.desafio.socialmeli.shared.enums.OrderBy;
-import com.bootcamp.desafio.socialmeli.shared.helpers.ComparatorHelper;
-import com.bootcamp.desafio.socialmeli.shared.utils.DateUtil;
+import com.bootcamp.desafio.socialmeli.shared.utils.ComparatorUtil;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -58,7 +55,7 @@ public class PostRepositoryImpl implements PostRepository {
             this.findPostsBySellerId(s.getUserId(), filterDate));
         });
 
-        sellerPosts.sort(ComparatorHelper.getComparatorOrder(orderBy));
+        sellerPosts.sort(ComparatorUtil.getComparatorOrder(orderBy));
 
         return sellerPosts;
     }
