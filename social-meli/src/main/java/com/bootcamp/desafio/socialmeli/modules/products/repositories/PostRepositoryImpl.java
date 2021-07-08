@@ -1,14 +1,13 @@
 package com.bootcamp.desafio.socialmeli.modules.products.repositories;
 
 import com.bootcamp.desafio.socialmeli.modules.products.domain.Post;
+import com.bootcamp.desafio.socialmeli.modules.products.helpers.ProductNameComparatorHelper;
 import com.bootcamp.desafio.socialmeli.modules.users.domain.Seller;
 import com.bootcamp.desafio.socialmeli.shared.enums.OrderBy;
 import com.bootcamp.desafio.socialmeli.shared.utils.ComparatorUtil;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
@@ -63,5 +62,14 @@ public class PostRepositoryImpl implements PostRepository {
                 .filter(p -> p.getUserId().equals(id))
                 .filter(Post::isHasPromo)
                 .collect(Collectors.toList());
+    }
+
+    public List<Post> findPromoPostsBySellerId(Long id, OrderBy orderBy) {
+        return this.posts.stream()
+                .filter(p -> p.getUserId().equals(id))
+                .filter(Post::isHasPromo)
+                .sorted(new ProductNameComparatorHelper(orderBy))
+                .collect(Collectors.toList());
+
     }
 }

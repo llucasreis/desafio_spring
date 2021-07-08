@@ -6,6 +6,6 @@ public interface PostService {
     void create(PostFormDTO formDTO);
     void create(PostPromoFormDTO formDTO);
     CustomerSellersPostsDTO findFollowedPostsList(Long userId, String order);
-    SellerPromoPostsDTO findSellerPromoPostsList(Long id);
+    SellerPromoPostsDTO findSellerPromoPostsList(Long id, String order);
     SellerPromoPostCountDTO findSellerPromoCount(Long id);
 }

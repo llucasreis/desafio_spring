@@ -14,4 +14,5 @@ public interface PostRepository {
     List<Post> findPostsBySellerId(Long id, Date filterDate);
     List<Post> findPostsBySellersOrderByDate(List<Seller> sellers, Date filterDate, OrderBy orderBy);
     List<Post> findPromoPostsBySellerId(Long id);
+    List<Post> findPromoPostsBySellerId(Long id, OrderBy orderBy);
 }

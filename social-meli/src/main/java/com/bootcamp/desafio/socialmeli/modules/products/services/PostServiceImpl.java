@@ -70,10 +70,11 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public SellerPromoPostsDTO findSellerPromoPostsList(Long id) {
+    public SellerPromoPostsDTO findSellerPromoPostsList(Long id, String order) {
+        OrderBy orderBy = EnumUtil.getOrderByValue(order);
         Seller seller = (Seller) this.userService.findById(id, UserType.SELLER);
 
-        List<Post> posts = this.postRepository.findPromoPostsBySellerId(id);
+        List<Post> posts = this.postRepository.findPromoPostsBySellerId(id, orderBy);
 
         return SellerPromoPostsDTO.convert(seller, posts);
     }

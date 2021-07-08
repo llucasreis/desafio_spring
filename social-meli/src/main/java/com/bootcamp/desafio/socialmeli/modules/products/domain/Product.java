@@ -1,6 +1,6 @@
 package com.bootcamp.desafio.socialmeli.modules.products.domain;
 
-public class Product {
+public class Product implements Comparable<Product> {
     private Long product_id;
     private String productName;
     private String brand;
@@ -64,5 +64,10 @@ public class Product {
                 "product_id=" + product_id +
                 ", productName='" + productName + '\'' +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Product o) {
+        return this.getProductName().compareTo(o.getProductName());
     }
 }

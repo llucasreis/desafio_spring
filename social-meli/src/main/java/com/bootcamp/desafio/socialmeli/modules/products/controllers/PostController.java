@@ -49,8 +49,9 @@ public class PostController {
     }
 
     @GetMapping("/{userId}/list")
-    public ResponseEntity<SellerPromoPostsDTO> findSellerPromoPosts(@PathVariable Long userId) {
-        SellerPromoPostsDTO sellerPromoPostsDTO = this.postService.findSellerPromoPostsList(userId);
+    public ResponseEntity<SellerPromoPostsDTO> findSellerPromoPosts(@PathVariable Long userId,
+                                                                    @RequestParam(defaultValue = "") String order) {
+        SellerPromoPostsDTO sellerPromoPostsDTO = this.postService.findSellerPromoPostsList(userId, order);
 
         return ResponseEntity.ok(sellerPromoPostsDTO);
     }
