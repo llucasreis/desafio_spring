@@ -35,4 +35,9 @@ public class Seller extends User {
     public boolean followerAlreadyExist(Customer customer) {
         return this.followers.contains(customer);
     }
+
+    @Override
+    public int compareTo(User o) {
+        return this.getUserName().compareTo(o.getUserName());
+    }
 }

@@ -1,6 +1,6 @@
 package com.bootcamp.desafio.socialmeli.modules.users.domain;
 
-public abstract class User {
+public abstract class User implements Comparable<User> {
     private Long userId;
     private String userName;
     private UserType userType;

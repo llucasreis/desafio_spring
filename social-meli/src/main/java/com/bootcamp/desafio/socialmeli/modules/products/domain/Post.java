@@ -2,7 +2,7 @@ package com.bootcamp.desafio.socialmeli.modules.products.domain;
 
 import java.util.Date;
 
-public class Post {
+public class Post implements Comparable<Post> {
     private Long userId;
     private Long id_post;
     private Date date;
@@ -99,5 +99,10 @@ public class Post {
                 ", date=" + date +
                 ", detail=" + detail +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Post o) {
+        return this.getDate().compareTo(o.getDate());
     }
 }

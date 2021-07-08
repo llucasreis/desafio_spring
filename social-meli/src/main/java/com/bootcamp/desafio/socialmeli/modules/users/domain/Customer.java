@@ -6,7 +6,6 @@ import java.util.List;
 public class Customer extends User {
 
     private List<Seller> followed;
-    private UserType userType;
 
     public Customer() {
         this.followed = new ArrayList<>();
@@ -31,5 +30,10 @@ public class Customer extends User {
 
     public void unfollow(Seller seller) {
         this.followed.remove(seller);
+    }
+
+    @Override
+    public int compareTo(User o) {
+        return this.getUserName().compareTo(o.getUserName());
     }
 }
