@@ -31,6 +31,7 @@ public class PostFormDTO {
     private int category;
 
     @NotNull
+    @Min(value = 0L)
     private Double price;
 
     public PostFormDTO() {

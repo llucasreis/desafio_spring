@@ -31,12 +31,14 @@ public class PostPromoFormDTO {
     private int category;
 
     @NotNull
+    @Min(value = 0L)
     private Double price;
 
     @NotNull
     private boolean hasPromo;
 
     @NotNull
+    @Min(value = 0L)
     private Double discount;
 
     public PostPromoFormDTO() {
