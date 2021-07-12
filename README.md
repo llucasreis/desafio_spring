@@ -1,4 +1,4 @@
-# Social Meli
+# Desafio Spring (Social Meli)
 
 > BootCamp Backend Java Desafio Spring
 
@@ -6,7 +6,7 @@
 
 Faça um clone do repositório:
 ```
-git clone git@github.com:llucasreis/social-meli.git
+git clone git@github.com:llucasreis/desafio_spring.git
 ```
 
 Execute a aplicação pela sua IDE ou pelo comando abaixo na raiz do projeto:
