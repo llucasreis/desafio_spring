@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.OptBoolean;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -26,10 +27,11 @@ public class PostPromoFormDTO {
     private Product detail;
 
     @NotNull
+    @Min(value = 0)
     private int category;
 
     @NotNull
-    private double price;
+    private Double price;
 
     @NotNull
     private boolean hasPromo;
@@ -40,7 +42,7 @@ public class PostPromoFormDTO {
     public PostPromoFormDTO() {
     }
 
-    public PostPromoFormDTO(Long userId, Long id_post, Date date, Product detail, int category, double price, boolean hasPromo, Double discount) {
+    public PostPromoFormDTO(Long userId, Long id_post, Date date, Product detail, int category, Double price, boolean hasPromo, Double discount) {
         this.userId = userId;
         this.id_post = id_post;
         this.date = date;
@@ -104,11 +106,11 @@ public class PostPromoFormDTO {
         this.category = category;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
