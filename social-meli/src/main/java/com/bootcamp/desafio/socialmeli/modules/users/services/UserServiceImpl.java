@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
 
         boolean success = this.userRepository.followSeller(userCustomer, userSeller);
 
-        if (!success) throw new BadRequestException();
+        if (!success) throw new BadRequestException("Este usuário já segue este vendedor");
     }
 
     @Override
@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
 
         boolean success = this.userRepository.unfollowSeller(userCustomer, userSeller);
 
-        if (!success) throw new BadRequestException();
+        if (!success) throw new BadRequestException("Este usuário não segue este vendedor");
     }
 
     @Override

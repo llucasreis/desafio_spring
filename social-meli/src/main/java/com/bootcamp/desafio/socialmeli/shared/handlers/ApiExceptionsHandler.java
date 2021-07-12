@@ -17,6 +17,9 @@ public class ApiExceptionsHandler {
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<?> handleBadRequestException(BadRequestException exception) {
+        if (exception.getMessage() != null) {
+            return new ResponseEntity<>(new ErrorDTO<>(exception.getMessage()), HttpStatus.BAD_REQUEST);
+        }
         return ResponseEntity.badRequest().build();
     }
 
